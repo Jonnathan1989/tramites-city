@@ -39,6 +39,14 @@ type FormErrors = Partial<Record<keyof FormData, string>>;
 export default function RegisterScreen() {
   const router = useRouter();
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
+  };
+
   const [form, setForm] = useState<FormData>({
     fullName: "",
     documentId: "",
@@ -128,7 +136,7 @@ export default function RegisterScreen() {
         >
           {/* Header compacto */}
           <View style={styles.banner}>
-            <Pressable onPress={() => router.back()} style={styles.backButton}>
+            <Pressable onPress={handleBack} style={styles.backButton}>
               <Ionicons name="arrow-back" size={22} color="#FFFFFF" />
             </Pressable>
             <View style={styles.logoCircle}>
@@ -312,7 +320,8 @@ const styles = StyleSheet.create({
   backButton: {
     alignSelf: "flex-start",
     padding: 8,
-    marginBottom: 4,
+    marginTop: 8,
+    marginBottom: 12,
   },
   logoCircle: {
     width: 56,
