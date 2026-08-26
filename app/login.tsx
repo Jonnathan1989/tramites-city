@@ -5,17 +5,16 @@ import {
   Platform,
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const COLORS = {
   primary: "#163A5F",
-  primaryLight: "#2C5B8C",
   accent: "#FFB800",
   bg: "#F5F7FA",
   card: "#FFFFFF",
@@ -25,6 +24,7 @@ const COLORS = {
 };
 
 export default function LoginScreen() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +35,7 @@ export default function LoginScreen() {
       return;
     }
     // Próximamente: POST /auth/login
-    Alert.alert("Trámites City", "Inicio de sesión preparado.");
+    router.replace("/(tabs)/home");
   };
 
   const handleForgotPassword = () => {
@@ -43,7 +43,7 @@ export default function LoginScreen() {
   };
 
   const handleCreateAccount = () => {
-    Alert.alert("Crear cuenta", "Aquí construiremos el registro del usuario.");
+    router.push("/register");
   };
 
   return (
@@ -52,11 +52,7 @@ export default function LoginScreen() {
         style={styles.flex}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Header institucional */}
+        <View style={styles.scrollContent}>
           <View style={styles.banner}>
             <View style={styles.logoCircle}>
               <Ionicons name="car-sport" size={30} color={COLORS.primary} />
@@ -67,14 +63,12 @@ export default function LoginScreen() {
             </Text>
           </View>
 
-          {/* Línea vial punteada */}
           <View style={styles.roadLine}>
             {Array.from({ length: 14 }).map((_, i) => (
               <View key={i} style={styles.dash} />
             ))}
           </View>
 
-          {/* Tarjeta de formulario */}
           <View style={styles.card}>
             <Text style={styles.label}>Correo electrónico</Text>
             <View style={styles.inputContainer}>
@@ -131,7 +125,7 @@ export default function LoginScreen() {
               </Pressable>
             </View>
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -158,17 +152,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 14,
   },
-  logoText: {
-    color: "#FFFFFF",
-    fontSize: 22,
-    fontWeight: "800",
-    letterSpacing: 1.5,
-  },
-  bannerSubtitle: {
-    color: "#C9D6E3",
-    fontSize: 13,
-    marginTop: 6,
-  },
+  logoText: { color: "#FFFFFF", fontSize: 22, fontWeight: "800", letterSpacing: 1.5 },
+  bannerSubtitle: { color: "#C9D6E3", fontSize: 13, marginTop: 6 },
 
   roadLine: {
     flexDirection: "row",
@@ -176,13 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     paddingBottom: 14,
   },
-  dash: {
-    width: 12,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: COLORS.accent,
-    marginHorizontal: 3,
-  },
+  dash: { width: 12, height: 3, borderRadius: 2, backgroundColor: COLORS.accent, marginHorizontal: 3 },
 
   card: {
     backgroundColor: COLORS.card,
@@ -195,13 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  label: {
-    fontSize: 13,
-    fontWeight: "700",
-    color: COLORS.text,
-    marginBottom: 8,
-    marginTop: 4,
-  },
+  label: { fontSize: 13, fontWeight: "700", color: COLORS.text, marginBottom: 8, marginTop: 4 },
 
   inputContainer: {
     flexDirection: "row",
@@ -215,12 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FBFCFD",
   },
   inputIcon: { marginRight: 8 },
-  input: {
-    flex: 1,
-    height: "100%",
-    fontSize: 15,
-    color: COLORS.text,
-  },
+  input: { flex: 1, height: "100%", fontSize: 15, color: COLORS.text },
   showButton: { padding: 4 },
 
   forgotButton: { alignSelf: "flex-end", marginBottom: 24 },
@@ -236,19 +204,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   buttonPressed: { opacity: 0.85 },
-  loginButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "800",
-    letterSpacing: 0.5,
-  },
+  loginButtonText: { color: "#FFFFFF", fontSize: 15, fontWeight: "800", letterSpacing: 0.5 },
 
   registerContainer: { alignItems: "center", marginTop: 28 },
   registerText: { fontSize: 13, color: COLORS.muted },
-  registerLink: {
-    marginTop: 6,
-    fontSize: 14,
-    fontWeight: "700",
-    color: COLORS.primary,
-  },
+  registerLink: { marginTop: 6, fontSize: 14, fontWeight: "700", color: COLORS.primary },
 });
