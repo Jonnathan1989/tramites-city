@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const COLORS = {
   primary: "#163A5F",
@@ -82,16 +83,13 @@ function statusStyle(status: Status) {
 
 export default function TramitesScreen() {
   const [activeTab, setActiveTab] = useState<Status>("activo");
+  const router = useRouter();
 
   const filtered = MOCK_TRAMITES.filter((t) => t.status === activeTab);
 
   const handleOpenDetail = (tramite: Tramite) => {
-    Alert.alert(
-      tramite.tipo,
-      `Ciudad: ${tramite.ciudad}\nEstado: ${tramite.estado}\nGestor: ${tramite.gestor}\n\nEl detalle completo con línea de tiempo se construirá en el siguiente paso.`
-    );
-  };
-
+  router.push(`/tramite/${tramite.id}`);
+};
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>

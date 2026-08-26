@@ -214,7 +214,7 @@ export default function CrearTramiteScreen() {
           </View>
 
           <Pressable
-            onPress={() => router.replace("/(tabs)/tramites")}
+            onPress={() => router.replace(`/tramite/${numeroSolicitud}`)}
             style={styles.primaryButton}
           >
             <Text style={styles.primaryButtonText}>VER SEGUIMIENTO</Text>
