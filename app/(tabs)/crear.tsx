@@ -11,6 +11,14 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  CATALOGO_TRAMITES,
+  NECESIDADES_SERVICIO,
+  GESTORES,
+  COMISION_PLATAFORMA,
+  TramiteCatalogo,
+  Gestor,
+} from "../../data/mockData";
 
 const COLORS = {
   primary: "#163A5F",
@@ -23,79 +31,6 @@ const COLORS = {
   success: "#16A34A",
   successBg: "#DCFCE7",
 };
-
-type Tramite = {
-  id: string;
-  nombre: string;
-  descripcion: string;
-  requisitos: string;
-  tiempo: string;
-  documentos: string[];
-};
-
-const TRAMITES: Tramite[] = [
-  {
-    id: "soat",
-    nombre: "SOAT - Renovación",
-    descripcion: "Renueva tu Seguro Obligatorio de Accidentes de Tránsito.",
-    requisitos: "Tarjeta de propiedad, cédula",
-    tiempo: "1 - 2 días hábiles",
-    documentos: ["Tarjeta de propiedad", "Cédula de ciudadanía"],
-  },
-  {
-    id: "licencia",
-    nombre: "Licencia de conducción",
-    descripcion: "Trámite o renovación de tu licencia de conducción.",
-    requisitos: "Cédula, certificado médico",
-    tiempo: "3 - 5 días hábiles",
-    documentos: ["Cédula de ciudadanía", "Certificado médico", "Licencia anterior (si aplica)"],
-  },
-  {
-    id: "traspaso",
-    nombre: "Traspaso de vehículo",
-    descripcion: "Cambio de propietario de un vehículo.",
-    requisitos: "Tarjeta de propiedad, cédulas de ambas partes",
-    tiempo: "3 - 7 días hábiles",
-    documentos: ["Tarjeta de propiedad", "Cédula comprador", "Cédula vendedor", "Contrato de compraventa"],
-  },
-  {
-    id: "comparendos",
-    nombre: "Comparendos",
-    descripcion: "Consulta y gestión de comparendos de tránsito.",
-    requisitos: "Cédula, número de comparendo",
-    tiempo: "1 - 3 días hábiles",
-    documentos: ["Cédula de ciudadanía"],
-  },
-];
-
-const NECESIDADES = [
-  "Realizar trámite presencial",
-  "Recoger documentos",
-  "Entregar documentos",
-  "Recoger improntas",
-  "Gestionar firmas",
-  "Gestionar poder o autorización",
-  "Otra necesidad relacionada",
-];
-
-type Gestor = {
-  id: string;
-  nombre: string;
-  calificacion: number;
-  servicios: number;
-  experiencia: string;
-  zona: string;
-  precio: number;
-  verificado: boolean;
-};
-
-const GESTORES: Gestor[] = [
-  { id: "g1", nombre: "Carlos Ramírez", calificacion: 4.9, servicios: 214, experiencia: "5 años", zona: "Cali - Sur", precio: 45000, verificado: true },
-  { id: "g2", nombre: "Ana Torres", calificacion: 4.8, servicios: 168, experiencia: "3 años", zona: "Cali - Norte", precio: 40000, verificado: true },
-  { id: "g3", nombre: "Julián Pérez", calificacion: 4.6, servicios: 92, experiencia: "2 años", zona: "Jamundí", precio: 38000, verificado: false },
-];
-
-const COMISION = 8000;
 
 const STEP_TITLES = [
   "Selecciona tu trámite",
@@ -114,7 +49,7 @@ export default function CrearTramiteScreen() {
   const [step, setStep] = useState(0);
   const [confirmado, setConfirmado] = useState(false);
 
-  const [tramite, setTramite] = useState<Tramite | null>(null);
+  const [tramite, setTramite] = useState<TramiteCatalogo | null>(null);
   const [modalidad, setModalidad] = useState<"misma" | "otra" | null>(null);
   const [ciudad, setCiudad] = useState("");
   const [direccion, setDireccion] = useState("");
@@ -125,7 +60,7 @@ export default function CrearTramiteScreen() {
   const [numeroSolicitud] = useState(() => `TC-${Math.floor(100000 + Math.random() * 900000)}`);
 
   const requiereImprontas = necesidades.includes("Recoger improntas") || necesidades.includes("Gestionar firmas");
-  const total = (gestor?.precio ?? 0) + COMISION;
+  const total = (gestor?.precio ?? 0) + COMISION_PLATAFORMA;
 
   const toggleNecesidad = (item: string) => {
     setNecesidades((prev) =>
@@ -243,7 +178,7 @@ export default function CrearTramiteScreen() {
         {step === 0 && (
           <>
             <Text style={styles.helper}>Para el MVP priorizamos trámites vehiculares.</Text>
-            {TRAMITES.map((t) => (
+            {CATALOGO_TRAMITES.map((t) => (
               <Pressable
                 key={t.id}
                 onPress={() => setTramite(t)}
@@ -320,7 +255,7 @@ export default function CrearTramiteScreen() {
         {step === 3 && (
           <>
             <Text style={styles.helper}>Selecciona todo lo que necesites (puedes elegir varias).</Text>
-            {NECESIDADES.map((n) => {
+            {NECESIDADES_SERVICIO.map((n) => {
               const selected = necesidades.includes(n);
               return (
                 <Pressable
@@ -420,7 +355,7 @@ export default function CrearTramiteScreen() {
             <SummaryRow label="Actividades" value={necesidades.join(", ") || "-"} />
             <View style={styles.divider} />
             <SummaryRow label="Costo del servicio" value={`$${(gestor?.precio ?? 0).toLocaleString("es-CO")}`} />
-            <SummaryRow label="Comisión Trámites City" value={`$${COMISION.toLocaleString("es-CO")}`} />
+            <SummaryRow label="Comisión Trámites City" value={`$${COMISION_PLATAFORMA.toLocaleString("es-CO")}`} />
             <View style={styles.divider} />
             <SummaryRow label="Total" value={`$${total.toLocaleString("es-CO")}`} bold />
             <Text style={styles.cancelPolicy}>

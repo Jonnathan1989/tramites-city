@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { CONVERSACIONES } from "../../data/mockData";
 
 const COLORS = {
   primary: "#163A5F",
@@ -19,34 +20,6 @@ const COLORS = {
   muted: "#64748B",
   border: "#E2E8F0",
 };
-
-type Conversacion = {
-  id: string;
-  gestor: string;
-  tramite: string;
-  ultimoMensaje: string;
-  hora: string;
-  noLeidos: number;
-};
-
-const CONVERSACIONES: Conversacion[] = [
-  {
-    id: "TC-482913",
-    gestor: "Carlos Ramírez",
-    tramite: "SOAT - Renovación",
-    ultimoMensaje: "Ya recibí tus documentos, te aviso cuando esté listo.",
-    hora: "9:41 a.m.",
-    noLeidos: 2,
-  },
-  {
-    id: "TC-357210",
-    gestor: "Ana Torres",
-    tramite: "Licencia de conducción",
-    ultimoMensaje: "Trámite finalizado con éxito. ¡Gracias por confiar en mí!",
-    hora: "Ayer",
-    noLeidos: 0,
-  },
-];
 
 export default function MensajesScreen() {
   const router = useRouter();

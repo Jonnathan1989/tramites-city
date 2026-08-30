@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Alert,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -10,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { MIS_SOLICITUDES, Solicitud, EstadoSolicitud } from "../../data/mockData";
 
 const COLORS = {
   primary: "#163A5F",
@@ -27,69 +27,28 @@ const COLORS = {
   errorBg: "#FEE2E2",
 };
 
-type Status = "activo" | "finalizado" | "cancelado";
-
-type Tramite = {
-  id: string;
-  tipo: string;
-  ciudad: string;
-  estado: string;
-  fecha: string;
-  gestor: string;
-  status: Status;
-};
-
-const MOCK_TRAMITES: Tramite[] = [
-  {
-    id: "1",
-    tipo: "SOAT - Renovación",
-    ciudad: "Cali",
-    estado: "Gestor asignado",
-    fecha: "18 ago 2026",
-    gestor: "Carlos Ramírez",
-    status: "activo",
-  },
-  {
-    id: "2",
-    tipo: "Traspaso de vehículo",
-    ciudad: "Jamundí",
-    estado: "En revisión de documentos",
-    fecha: "20 ago 2026",
-    gestor: "Por asignar",
-    status: "activo",
-  },
-  {
-    id: "3",
-    tipo: "Licencia de conducción",
-    ciudad: "Cali",
-    estado: "Finalizado",
-    fecha: "02 ago 2026",
-    gestor: "Ana Torres",
-    status: "finalizado",
-  },
-];
-
-const TABS: { key: Status; label: string }[] = [
+const TABS: { key: EstadoSolicitud; label: string }[] = [
   { key: "activo", label: "Activos" },
   { key: "finalizado", label: "Finalizados" },
   { key: "cancelado", label: "Cancelados" },
 ];
 
-function statusStyle(status: Status) {
+function statusStyle(status: EstadoSolicitud) {
   if (status === "activo") return { color: COLORS.warning, bg: COLORS.warningBg };
   if (status === "finalizado") return { color: COLORS.success, bg: COLORS.successBg };
   return { color: COLORS.error, bg: COLORS.errorBg };
 }
 
 export default function TramitesScreen() {
-  const [activeTab, setActiveTab] = useState<Status>("activo");
+  const [activeTab, setActiveTab] = useState<EstadoSolicitud>("activo");
   const router = useRouter();
 
-  const filtered = MOCK_TRAMITES.filter((t) => t.status === activeTab);
+  const filtered = MIS_SOLICITUDES.filter((t) => t.status === activeTab);
 
-  const handleOpenDetail = (tramite: Tramite) => {
-  router.push(`/tramite/${tramite.id}`);
-};
+  const handleOpenDetail = (solicitud: Solicitud) => {
+    router.push(`/tramite/${solicitud.id}`);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>

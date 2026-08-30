@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { ESTADOS_SEGUIMIENTO } from "../../data/mockData";
 
 const COLORS = {
   primary: "#163A5F",
@@ -20,18 +21,6 @@ const COLORS = {
   border: "#E2E8F0",
   success: "#16A34A",
 };
-
-const ESTADOS = [
-  { key: "creada", label: "Solicitud creada", fecha: "18 ago 2026 · 9:02 a.m.", detalle: "Recibimos tu solicitud correctamente." },
-  { key: "gestor", label: "Gestor seleccionado", fecha: "18 ago 2026 · 9:05 a.m.", detalle: "Carlos Ramírez fue asignado a tu trámite." },
-  { key: "pago", label: "Pago confirmado", fecha: "18 ago 2026 · 9:06 a.m.", detalle: "Tu pago fue procesado exitosamente." },
-  { key: "documentos", label: "Documentos recibidos", fecha: "18 ago 2026 · 11:40 a.m.", detalle: "Tu gestor recibió los documentos cargados." },
-  { key: "proceso", label: "En proceso", fecha: "19 ago 2026 · 8:15 a.m.", detalle: "Tu gestor está realizando el trámite." },
-  { key: "organismo", label: "En organismo de tránsito", fecha: null, detalle: "Se radicará ante el organismo correspondiente." },
-  { key: "revision", label: "En revisión", fecha: null, detalle: "El organismo revisará la documentación." },
-  { key: "evidencias", label: "Evidencias cargadas", fecha: null, detalle: "Tu gestor cargará el soporte final." },
-  { key: "finalizado", label: "Finalizado", fecha: null, detalle: "Tu trámite habrá concluido con éxito." },
-];
 
 // Índice mock del estado actual (0-based). En producción vendría del backend.
 const ESTADO_ACTUAL = 3;
@@ -76,10 +65,10 @@ export default function SeguimientoScreen() {
         <Text style={styles.sectionTitle}>Línea de tiempo</Text>
 
         <View style={styles.timeline}>
-          {ESTADOS.map((estado, index) => {
+          {ESTADOS_SEGUIMIENTO.map((estado, index) => {
             const isDone = index < ESTADO_ACTUAL;
             const isCurrent = index === ESTADO_ACTUAL;
-            const isLast = index === ESTADOS.length - 1;
+            const isLast = index === ESTADOS_SEGUIMIENTO.length - 1;
 
             return (
               <View key={estado.key} style={styles.timelineRow}>
