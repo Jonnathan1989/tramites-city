@@ -2,13 +2,13 @@ import React, { useMemo, useState } from "react";
 import {
   Alert,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -46,6 +46,7 @@ const STEP_TITLES = [
 
 export default function CrearTramiteScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [step, setStep] = useState(0);
   const [confirmado, setConfirmado] = useState(false);
 
@@ -161,7 +162,7 @@ export default function CrearTramiteScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
         <Pressable onPress={goBack} style={styles.backButton}>
           <Ionicons name="arrow-back" size={22} color={COLORS.text} />
         </Pressable>
