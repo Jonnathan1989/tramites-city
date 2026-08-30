@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const COLORS = {
   primary: "#163A5F",
@@ -41,6 +42,7 @@ const MENSAJES_INICIALES: Mensaje[] = [
 
 export default function ChatScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ id?: string; gestor?: string; tramite?: string }>();
   const [mensajes, setMensajes] = useState<Mensaje[]>(MENSAJES_INICIALES);
   const [texto, setTexto] = useState("");
@@ -73,7 +75,7 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <Pressable onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={22} color="#FFFFFF" />
         </Pressable>
@@ -111,7 +113,7 @@ export default function ChatScreen() {
           )}
         />
 
-        <View style={styles.inputBar}>
+        <View style={[styles.inputBar, { paddingBottom: Math.max(insets.bottom, 12) }]}>
           <TextInput
             value={texto}
             onChangeText={setTexto}
